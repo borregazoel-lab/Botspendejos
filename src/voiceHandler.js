@@ -2,6 +2,20 @@ const { joinVoiceChannel, getVoiceConnection } = require('@discordjs/voice');
 const { getState, setState, clearState } = require('./state');
 
 /**
+ * IMPORTANTE: @discordjs/voice guarda sus conexiones de voz en un registro
+ * interno agrupado por "group" (ademas del guildId). Si varios bots del
+ * mismo proceso se conectan al MISMO servidor y no se especifica un group
+ * distinto para cada uno, todos caen en el group "default" y se pisan entre
+ * si (el registro de un bot sobreescribe al del otro), causando que solo
+ * uno pueda quedarse conectado de verdad.
+ *
+ * Por eso aqui SIEMPRE usamos el ID del bot (client.user.id) como "group",
+ * tanto al crear la conexion (joinVoiceChannel) como al buscarla
+ * (getVoiceConnection). Asi cada bot tiene su propio carril, sin importar
+ * cuantos bots compartan servidor.
+ */
+
+/**
  * Conecta el bot (client) a un canal de voz y guarda el estado
  * "hogar" de ese bot (guild + canal + dueno).
  */
@@ -12,6 +26,7 @@ function connectBotToChannel(client, guild, channel, ownerId) {
     adapterCreator: guild.voiceAdapterCreator,
     selfDeaf: true,
     selfMute: false,
+    group: client.user.id,
   });
 
   setState(client.user.id, {
@@ -28,7 +43,7 @@ function connectBotToChannel(client, guild, channel, ownerId) {
  * el caso en el que el VC se queda vacio tras un movimiento manual.
  */
 function disconnectBot(client, guildId) {
-  const connection = getVoiceConnection(guildId);
+  const connection = getVoiceConnection(guildId, client.user.id);
   if (connection) {
     connection.destroy();
   }
@@ -89,6 +104,7 @@ function attachVoiceHandler(client) {
           adapterCreator: guild.voiceAdapterCreator,
           selfDeaf: true,
           selfMute: false,
+          group: client.user.id,
         });
       } catch (err) {
         console.error(`[voice] Error al forzar el regreso del bot ${client.user.tag}:`, err);

@@ -56,6 +56,23 @@ Prefijo por defecto: `$` (configurable con `PREFIX`).
    npm start
    ```
 
+## Evitar que agreguen tus bots a otros servidores
+
+Hay dos capas de protección:
+
+1. **Developer Portal (la principal):** en cada bot, ve a **Bot** y desactiva
+   el toggle **"Public Bot"**. Así nadie más puede generar un link de
+   invitación para ese bot, solo tú desde tu cuenta.
+2. **Código (respaldo):** define `ALLOWED_GUILD_IDS` con el/los ID(s) de
+   tu(s) servidor(es), separados por coma:
+   ```
+   ALLOWED_GUILD_IDS=123456789012345678
+   ```
+   Si un bot termina en cualquier otro servidor (link filtrado, cuenta
+   comprometida, etc.), **se sale automáticamente** apenas entra, y también
+   se revisa al arrancar por si ya estaba en uno no autorizado. Si dejas esta
+   variable vacía, no se aplica ninguna restricción.
+
 ## Configuración de cada bot en el Developer Portal
 
 Para **cada** bot que vayas a hostear:
