@@ -42,8 +42,8 @@ async function handleConnect(client, message, args) {
   // reconectarlo al mismo canal. Primero hay que desconectarlo con $d.
   if (existing && existing.active) {
     await message.reply(
-      `❌ **${client.user.username}** ya esta conectado a un canal de voz. ` +
-      `Solo quien lo conecto puede desconectarlo con \`${prefix}d ${client.user.id}\` antes de volver a usarlo.`
+      ` **${client.user.username}** ya estoy conectado a un canal de voz. ` +
+      `Solo quien lo conecto puede desconectarme con \`${prefix}d ${client.user.id}\` para que me puedan usar pendejos.`
     );
     return;
   }
@@ -51,16 +51,16 @@ async function handleConnect(client, message, args) {
   const channel = await message.guild.channels.fetch(vcId).catch(() => null);
 
   if (!channel || (channel.type !== ChannelType.GuildVoice && channel.type !== ChannelType.GuildStageVoice)) {
-    await message.reply('❌ No encontre ese canal de voz en este servidor. Revisa el ID.');
+    await message.reply(' No encontre ese canal de voz en este servidor. Revisa el ID puto.');
     return;
   }
 
   try {
     connectBotToChannel(client, message.guild, channel, message.author.id);
-    await message.reply(`✅ **${client.user.username}** se conecto a **${channel.name}**.`);
+    await message.reply(` **${client.user.username}** se conecto a **${channel.name}**.`);
   } catch (err) {
     console.error(`[commands] Error conectando ${client.user.tag} al VC ${vcId}:`, err);
-    await message.reply('❌ Ocurrio un error al intentar conectarme a ese canal (revisa mis permisos: Ver canal / Conectar).');
+    await message.reply(' Ocurrio un error al intentar conectarme a ese canal (revisa mis permisos: Ver canal / Conectar), o pidele ayuda a ulu pendejo.');
   }
 }
 
@@ -73,18 +73,18 @@ async function handleDisconnect(client, message, args) {
   const state = getState(client.user.id);
 
   if (!state || !state.active) {
-    await message.reply(`ℹ️ **${client.user.username}** no esta conectado a ningun canal de voz.`);
+    await message.reply(` **${client.user.username}** no esta conectado a ningun canal de voz pendejo.`);
     return;
   }
 
   // Regla 2: solo quien lo conecto puede desconectarlo.
   if (state.ownerId !== message.author.id) {
-    await message.reply(`❌ Solo <@${state.ownerId}> (quien lo conecto) puede desconectar a **${client.user.username}**.`);
+    await message.reply(`Solo <@${state.ownerId}> (quien lo conecto) puede desconectar a **${client.user.username}**.`);
     return;
   }
 
   disconnectBot(client, state.guildId);
-  await message.reply(`👋 **${client.user.username}** se desconecto del canal de voz.`);
+  await message.reply(`**${client.user.username}** adios puta.`);
 }
 
 module.exports = { attachCommands };
