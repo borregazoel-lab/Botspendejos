@@ -1,0 +1,19 @@
+{
+  "name": "discord-multibot-voice-manager",
+  "version": "1.0.0",
+  "description": "Manager multibot de Discord: conecta y desconecta varios bots a canales de voz mediante comandos ($c / $d), con proteccion anti-robo/anti-movimiento. Pensado para hostear en Railway.",
+  "main": "src/index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "discord.js": "^14.15.3",
+    "@discordjs/voice": "^0.17.0",
+    "dotenv": "^16.4.5",
+    "tweetnacl": "^1.0.3"
+  }
+}
