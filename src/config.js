@@ -67,8 +67,17 @@ const allowedGuildIds = (process.env.ALLOWED_GUILD_IDS || '')
   .map((id) => id.trim())
   .filter(Boolean);
 
+/**
+ * ID de usuario con permiso total de "superusuario" sobre TODOS los bots:
+ * puede $c / $d cualquier bot sin importar quién lo conectó ni si ya está
+ * activo en otro VC. También es el único que puede otorgar/quitar ese
+ * mismo permiso a otras personas con $control add / $control delete.
+ */
+const masterSuperUserId = process.env.MASTER_SUPERUSER_ID || '786993411605135411';
+
 module.exports = {
   tokens,
   prefix: process.env.PREFIX || '$',
   allowedGuildIds,
+  masterSuperUserId,
 };
