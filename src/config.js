@@ -56,18 +56,6 @@ if (tokens.length === 0) {
 }
 
 /**
- * Lista de IDs de servidores en los que SÍ se permite que los bots estén.
- * Si un bot es agregado a cualquier otro servidor, se sale automaticamente.
- * Formato: ALLOWED_GUILD_IDS=id1,id2,id3
- * Si se deja vacio, no se aplica ninguna restriccion (los bots pueden estar
- * en cualquier servidor).
- */
-const allowedGuildIds = (process.env.ALLOWED_GUILD_IDS || '')
-  .split(',')
-  .map((id) => id.trim())
-  .filter(Boolean);
-
-/**
  * ID de usuario con permiso total de "superusuario" sobre TODOS los bots:
  * puede $c / $d cualquier bot sin importar quién lo conectó ni si ya está
  * activo en otro VC. También es el único que puede otorgar/quitar ese
@@ -78,6 +66,5 @@ const masterSuperUserId = process.env.MASTER_SUPERUSER_ID || '786993411605135411
 module.exports = {
   tokens,
   prefix: process.env.PREFIX || '$',
-  allowedGuildIds,
   masterSuperUserId,
 };

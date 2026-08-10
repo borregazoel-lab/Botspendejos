@@ -2,7 +2,8 @@ const { startBots } = require('./botManager');
 
 startBots()
   .then((clients) => {
-    console.log(`[index] Multibot iniciado con ${clients.length} bot(s).`);
+    console.log(`[index] Aviso "bot off" enviado y ${clients.length} bot(s) desconectados. Sistema apagado.`);
+    process.exit(0);
   })
   .catch((err) => {
     console.error('[index] Error fatal iniciando el multibot:', err);
